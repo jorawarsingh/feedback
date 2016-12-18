@@ -16,9 +16,16 @@ import java.util.List;
 public interface AdminServiceImpl {
 
     Admin getUser(long adminId);
+
+    Admin getUserByUserName(String userName);
+
     List<Admin> getUsers();
+
     Admin createUser(Admin user);
+
     Admin createUserAndApp(Admin user, App app);
+
     void deleteUser(long adminId);
+
     Admin updateUser(Admin user);
 }

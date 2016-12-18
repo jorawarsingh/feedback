@@ -23,13 +23,19 @@ import java.util.Set;
  * @author js
  */
 public class Main {
-
+    
     public static void main(String[] args) {
+        Admin admin = new Admin();
+        admin.setName("jorawar");
+        admin.setUserName("js");
+        admin.setEmail("my email");
         // User u = new User();
         // List<Admin> admin = new ArrayList<>();
-        // App app = new App();
+        App app = new App();
+        app.setAdmin(admin);
+        app.setName("jorawar app");
         //   List<App> apps = new ArrayList<>();
-          List<Issue> issues = new ArrayList<>();
+        //  List<Issue> issues = new ArrayList<>();
         //  Issue issue = new Issue();
         // issue.setTitle("i am a issue");
         //   u.setEmail("jorawar@hoSDtmaiadsdl.com");
@@ -42,14 +48,15 @@ public class Main {
         // apps.add(app);
         //     issues.add(issue);
         //   admin.setApp(apps);
-        // AdminService adminService = new AdminService(IssueEntityManagerFactory.getEmf());
+         AdminService adminService = new AdminService(IssueEntityManagerFactory.getEmf());
+         adminService.createUserAndApp(admin, app);
         // admin = adminService.getUsers();
         //  AppService appService = new AppService(IssueEntityManagerFactory.getEmf());
         //   apps = appService.getAppsByAdmin(2);
         // apps.forEach(app -> System.out.println(app.getName()));
-        IssueService issueService = new IssueService(IssueEntityManagerFactory.getEmf());
-        issues = issueService.getIssueByUserId(1);
-        issues.forEach(issue -> System.out.println(issue.getTitle()));
+       // IssueService issueService = new IssueService(IssueEntityManagerFactory.getEmf());
+        //issues = issueService.getIssueByUserId(1);
+       // issues.forEach(issue -> System.out.println(issue.getTitle()));
         // UserService userService = new UserService(IssueEntityManagerFactory.getEmf());
         //  userService.createUser(u);
         //   issueService.createIssueAndUser(issue,1,u);

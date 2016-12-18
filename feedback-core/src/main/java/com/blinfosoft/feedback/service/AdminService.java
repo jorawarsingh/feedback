@@ -8,7 +8,9 @@ package com.blinfosoft.feedback.service;
 import com.blinfosoft.feedback.entity.App;
 import com.blinfosoft.feedback.entity.Admin;
 import com.blinfosoft.feedback.exception.FeedbackException;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.EntityManager;
@@ -127,7 +129,7 @@ public class AdminService implements AdminServiceImpl {
     @Override
     public Admin createUserAndApp(Admin admin, App app) {
         EntityManager em = null;
-        Set<App> apps = new HashSet<>();
+        Collection<App> apps = new LinkedHashSet<>();
         apps.add(app);
         try {
             em = getEntityManager();
@@ -143,6 +145,26 @@ public class AdminService implements AdminServiceImpl {
             }
         }
         return admin;
+    }
+
+    @Override
+    public Admin getUserByUserName(String userName) {
+        EntityManager em = null;
+        String q = "SELECT a FROM Admin a where userName = "+userName;
+        TypedQuery<Admin> query = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            query = em.createQuery(q, Admin.class);
+            em.getTransaction().commit();
+            return query.getSingleResult();
+        } catch (Exception e) {
+            throw new FeedbackException("unknown error", e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
     }
 
 }
