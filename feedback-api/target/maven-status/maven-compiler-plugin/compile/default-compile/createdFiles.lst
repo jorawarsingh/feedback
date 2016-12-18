@@ -1,0 +1,12 @@
+com\blinfosoft\feedback\api\AppResources.class
+com\blinfosoft\feedback\api\IssueResources.class
+com\blinfosoft\feedback\dto\out\AppDTO.class
+com\blinfosoft\feedback\api\UserResources.class
+com\blinfosoft\feedback\dto\out\AdminDTO.class
+com\blinfosoft\feedback\dto\out\IssueDTO.class
+com\blinfosoft\feedback\dto\out\IssueListDTO.class
+com\blinfosoft\feedback\dto\out\AdminListDTO.class
+com\blinfosoft\feedback\dto\out\AppListDTO.class
+com\blinfosoft\feedback\api\Hello.class
+com\blinfosoft\feedback\dto\out\DTOFactory.class
+com\blinfosoft\feedback\api\AdminResources.class
