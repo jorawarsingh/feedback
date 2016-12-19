@@ -2,11 +2,11 @@
 import com.blinfosoft.feedback.db.IssueEntityManagerFactory;
 import com.blinfosoft.feedback.entity.App;
 import com.blinfosoft.feedback.entity.Issue;
-import com.blinfosoft.feedback.entity.Admin;
+import com.blinfosoft.feedback.entity.Account;
 import com.blinfosoft.feedback.entity.User;
 import com.blinfosoft.feedback.service.AppService;
 import com.blinfosoft.feedback.service.IssueService;
-import com.blinfosoft.feedback.service.AdminService;
+import com.blinfosoft.feedback.service.AccountService;
 import com.blinfosoft.feedback.service.UserService;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,15 +25,15 @@ import java.util.Set;
 public class Main {
     
     public static void main(String[] args) {
-        Admin admin = new Admin();
+        Account admin = new Account();
         admin.setName("jorawar");
-        admin.setUserName("js");
-        admin.setEmail("my email");
+        admin.setUserName("jsjs");
+        admin.setEmail("my email test");
         // User u = new User();
         // List<Admin> admin = new ArrayList<>();
-        App app = new App();
-        app.setAdmin(admin);
-        app.setName("jorawar app");
+     //   App app = new App();
+       // app.setAdmin(admin);
+       // app.setName("jorawar app");
         //   List<App> apps = new ArrayList<>();
         //  List<Issue> issues = new ArrayList<>();
         //  Issue issue = new Issue();
@@ -48,8 +48,8 @@ public class Main {
         // apps.add(app);
         //     issues.add(issue);
         //   admin.setApp(apps);
-         AdminService adminService = new AdminService(IssueEntityManagerFactory.getEmf());
-         adminService.createUserAndApp(admin, app);
+         AccountService adminService = new AccountService(IssueEntityManagerFactory.getEmf());
+         System.out.println(adminService.getAccountByName("js"));
         // admin = adminService.getUsers();
         //  AppService appService = new AppService(IssueEntityManagerFactory.getEmf());
         //   apps = appService.getAppsByAdmin(2);

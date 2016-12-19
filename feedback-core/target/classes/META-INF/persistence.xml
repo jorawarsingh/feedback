@@ -3,8 +3,8 @@
   <persistence-unit name="com.blinfosoft-jpa" transaction-type="RESOURCE_LOCAL">
     <class>com.blinfosoft.feedback.entity.App</class>
     <class>com.blinfosoft.feedback.entity.Issue</class>
-    <class>com.blinfosoft.feedback.entity.Admin</class>
     <class>com.blinfosoft.feedback.entity.User</class>
+    <class>com.blinfosoft.feedback.entity.Account</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="hibernate.hbm2ddl.auto" value="update"/>

@@ -6,7 +6,7 @@
 package com.blinfosoft.feedback.service;
 
 import com.blinfosoft.feedback.entity.App;
-import com.blinfosoft.feedback.entity.Admin;
+import com.blinfosoft.feedback.entity.Account;
 import com.blinfosoft.feedback.exception.FeedbackException;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -124,10 +124,10 @@ public class AppService implements AppServiceImpl {
     @Override
     public App createAppByUser(App app, long userId) {
           EntityManager em = null;
-          Admin user = null;
-          AdminService userService = new AdminService(emf);
+          Account user = null;
+          AccountService userService = new AccountService(emf);
         try {
-            user = userService.getUser(userId);
+            user = userService.getAccount(userId);
             app.setAdmin(user);
             em = getEntityManager();
             em.getTransaction().begin();

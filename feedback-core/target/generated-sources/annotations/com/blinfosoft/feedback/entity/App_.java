@@ -11,7 +11,7 @@ public abstract class App_ {
 
 	public static volatile SetAttribute<App, Issue> issue;
 	public static volatile SingularAttribute<App, String> name;
-	public static volatile SingularAttribute<App, Admin> admin;
+	public static volatile SingularAttribute<App, Account> admin;
 	public static volatile SingularAttribute<App, Long> id;
 
 }

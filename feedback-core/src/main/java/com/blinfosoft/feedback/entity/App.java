@@ -37,7 +37,7 @@ public class App implements Serializable {
     private Set<Issue> issue;
     @ManyToOne
     @JoinColumn(name = "Admin_Id", nullable = false)
-    private Admin admin;
+    private Account admin;
 
     public long getId() {
         return id;
@@ -59,11 +59,11 @@ public class App implements Serializable {
         this.issue = issue;
     }
 
-    public Admin getAdmin() {
+    public Account getAdmin() {
         return admin;
     }
 
-    public void setAdmin(Admin admin) {
+    public void setAdmin(Account admin) {
         this.admin = admin;
     }
 }

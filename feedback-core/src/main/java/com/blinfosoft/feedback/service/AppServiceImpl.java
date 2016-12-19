@@ -6,7 +6,7 @@
 package com.blinfosoft.feedback.service;
 
 import com.blinfosoft.feedback.entity.App;
-import com.blinfosoft.feedback.entity.Admin;
+import com.blinfosoft.feedback.entity.Account;
 import java.util.List;
 
 /**
