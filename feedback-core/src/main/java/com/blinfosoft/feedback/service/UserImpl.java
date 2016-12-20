@@ -5,8 +5,8 @@
  */
 package com.blinfosoft.feedback.service;
 
-import com.blinfosoft.feedback.entity.Issue;
-import com.blinfosoft.feedback.entity.User;
+import com.blinfosoft.feedback.entity.DefaultIssue;
+import com.blinfosoft.feedback.entity.DefaultUser;
 import java.util.List;
 
 /**
@@ -15,13 +15,13 @@ import java.util.List;
  */
 public interface UserImpl {
 
-    User getUser(long userId);
+    DefaultUser getUser(long userId);
 
-    List<User> getUsers();
+    List<DefaultUser> getUsers();
 
-    User createUser(User user);
+    DefaultUser createUser(DefaultUser user);
 
-    User updateUser(User user);
+    DefaultUser updateUser(DefaultUser user);
 
     void deleteUser(long userId);
 }

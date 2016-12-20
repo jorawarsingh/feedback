@@ -5,9 +5,9 @@
  */
 package com.blinfosoft.feedback.api;
 
-import com.blinfosoft.feedback.db.IssueEntityManagerFactory;
+import com.blinfosoft.feedback.dao.FeedbackEntityManagerFactory;
 import com.blinfosoft.feedback.dto.out.DTOFactory;
-import com.blinfosoft.feedback.entity.App;
+import com.blinfosoft.feedback.entity.impl.App;
 import com.blinfosoft.feedback.service.AppService;
 import java.util.List;
 import javax.ws.rs.GET;
@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
  */
 @Path("/app")
 public class AppResources {
-    private final AppService adminService = new AppService(IssueEntityManagerFactory.getEmf());
+    private final AppService adminService = new AppService(FeedbackEntityManagerFactory.getInstance());
     @GET
     @Produces("application/json")
     public Response getAppList() {
@@ -37,9 +37,9 @@ public class AppResources {
     @GET
     @Path("/{param}")
     @Produces("application/json")
-    public Response getAppByAdmin(@PathParam("param") long adminId) {
+    public Response getAppByAdmin(@PathParam("param") long id) {
         try {
-            List<App> app = adminService.getAppsByAdmin(adminId);
+            List<App> app = adminService.getAppsByAdmin(id);
             //   admin.forEach(item->System.out.println(item.getName()));
             return Response.ok(new DTOFactory().getAppList(app)).build();
         } catch (Exception e) {

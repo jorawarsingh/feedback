@@ -5,9 +5,11 @@
  */
 package com.blinfosoft.feedback.dto.out;
 
-import com.blinfosoft.feedback.entity.Account;
-import com.blinfosoft.feedback.entity.App;
-import com.blinfosoft.feedback.entity.Issue;
+import com.blinfosoft.feedback.entity.DefaultAccount;
+import com.blinfosoft.feedback.entity.DefaultApp;
+import com.blinfosoft.feedback.entity.DefaultIssue;
+import com.blinfosoft.feedback.entity.impl.Account;
+import com.blinfosoft.feedback.entity.impl.App;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,17 +19,19 @@ import java.util.List;
  */
 public class DTOFactory {
 
-    public AccountDTO getAdmin(Account admin) {
-        AccountDTO adminDTO = new AccountDTO();
-        adminDTO.setId(admin.getId());
-        adminDTO.setName(admin.getName());
-        return adminDTO;
+    public AccountDTO getAccount(Account account) {
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setId(account.getId());
+        accountDTO.setEmail(account.getEmail());
+        accountDTO.setName(account.getAccountName());
+        accountDTO.setUserName(account.getAccountName());
+        return accountDTO;
     }
 
     public List<AccountDTO> getAdminList(List<Account> adminList) {
         List<AccountDTO> adminListDTO = new ArrayList<AccountDTO>();
-        adminList.stream().forEach((admin) -> {
-            adminListDTO.add(getAdmin(admin));
+        adminList.stream().forEach((account) -> {
+            adminListDTO.add(getAccount(account));
         });
         return adminListDTO;
     }
@@ -46,14 +50,14 @@ public class DTOFactory {
         return appListDTO;
     }
     
-    public IssueDTO getIssue(Issue issue) {
+    public IssueDTO getIssue(DefaultIssue issue) {
         IssueDTO issueDTO = new IssueDTO();
         issueDTO.setId(issue.getId());
         issueDTO.setTitle(issue.getTitle());
         return issueDTO;
     }
 
-    public List<IssueDTO> getIssueList(List<Issue> issueList) {
+    public List<IssueDTO> getIssueList(List<DefaultIssue> issueList) {
         List<IssueDTO> issueListDTO = new ArrayList<>();
         issueList.stream().forEach((app) -> {
             issueListDTO.add(getIssue(app));

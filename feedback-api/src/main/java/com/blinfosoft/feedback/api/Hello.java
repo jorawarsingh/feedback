@@ -5,7 +5,7 @@
  */
 package com.blinfosoft.feedback.api;
 
-import com.blinfosoft.feedback.entity.Issue;
+import com.blinfosoft.feedback.entity.DefaultIssue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
  */
 @Path("/hello")
 public class Hello {
-    private Issue issue = new Issue();
+    private DefaultIssue issue = new DefaultIssue();
     @GET
 	@Path("/{param}")
 	public Response getMsg(@PathParam("param") String msg) {

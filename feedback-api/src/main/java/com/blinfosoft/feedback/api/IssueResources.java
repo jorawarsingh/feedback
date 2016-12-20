@@ -5,10 +5,10 @@
  */
 package com.blinfosoft.feedback.api;
 
-import com.blinfosoft.feedback.db.IssueEntityManagerFactory;
+import com.blinfosoft.feedback.dao.FeedbackEntityManagerFactory;
 import com.blinfosoft.feedback.dto.out.DTOFactory;
-import com.blinfosoft.feedback.entity.App;
-import com.blinfosoft.feedback.entity.Issue;
+import com.blinfosoft.feedback.entity.DefaultApp;
+import com.blinfosoft.feedback.entity.DefaultIssue;
 import com.blinfosoft.feedback.service.IssueService;
 import java.util.List;
 import javax.ws.rs.GET;
@@ -23,13 +23,13 @@ import javax.ws.rs.core.Response;
  */
 @Path("/issue")
 public class IssueResources {
-    private final IssueService issueService = new IssueService(IssueEntityManagerFactory.getEmf());
+    private final IssueService issueService = new IssueService(FeedbackEntityManagerFactory.getInstance());
     @GET
     @Path("/{param}")
     @Produces("application/json")
     public Response getIssuesByAdmin(@PathParam("param") long appId) {
         try {
-           List<Issue> issue = issueService.getIssueByAppId(appId);
+           List<DefaultIssue> issue = issueService.getIssueByAppId(appId);
             return Response.ok(new DTOFactory().getIssueList(issue)).build();
         } catch (Exception e) {
             return Response.serverError().entity(e).build();
@@ -40,7 +40,7 @@ public class IssueResources {
     @Produces("application/json")
     public Response getAppByUser(@PathParam("param") long userId) {
         try {
-           List<Issue> issue = issueService.getIssueByUserId(userId);
+           List<DefaultIssue> issue = issueService.getIssueByUserId(userId);
             return Response.ok(new DTOFactory().getIssueList(issue)).build();
         } catch (Exception e) {
             return Response.serverError().entity(e).build();

@@ -5,8 +5,10 @@
  */
 package com.blinfosoft.feedback.service;
 
-import com.blinfosoft.feedback.entity.App;
-import com.blinfosoft.feedback.entity.Account;
+import com.blinfosoft.feedback.entity.DefaultApp;
+import com.blinfosoft.feedback.entity.DefaultAccount;
+import com.blinfosoft.feedback.entity.impl.Account;
+import com.blinfosoft.feedback.entity.impl.App;
 import com.blinfosoft.feedback.exception.FeedbackException;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -30,12 +32,12 @@ public class AppService implements AppServiceImpl {
     }
 
     @Override
-    public App getApp(long id) {
+    public DefaultApp getApp(long id) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.clear();
-            App app = em.find(App.class, id);
+            DefaultApp app = em.find(DefaultApp.class, id);
             return app;
         } catch (Exception e) {
             throw new FeedbackException("could not find app with id :- " + id, e);
@@ -52,7 +54,7 @@ public class AppService implements AppServiceImpl {
         App app = null;
         try {
             em = getEntityManager();
-            app = em.find(App.class, id);
+            app = em.find(DefaultApp.class, id);
             em.getTransaction().begin();
             em.remove(app);
             em.getTransaction().commit();
@@ -123,23 +125,7 @@ public class AppService implements AppServiceImpl {
 
     @Override
     public App createAppByUser(App app, long userId) {
-          EntityManager em = null;
-          Account user = null;
-          AccountService userService = new AccountService(emf);
-        try {
-            user = userService.getAccount(userId);
-            app.setAdmin(user);
-            em = getEntityManager();
-            em.getTransaction().begin();
-            em.persist(app);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+      
         return app;
     }
 

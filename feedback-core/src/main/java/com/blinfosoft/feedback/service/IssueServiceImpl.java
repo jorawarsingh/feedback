@@ -5,8 +5,8 @@
  */
 package com.blinfosoft.feedback.service;
 
-import com.blinfosoft.feedback.entity.Issue;
-import com.blinfosoft.feedback.entity.User;
+import com.blinfosoft.feedback.entity.DefaultIssue;
+import com.blinfosoft.feedback.entity.DefaultUser;
 import java.util.List;
 
 /**
@@ -15,17 +15,17 @@ import java.util.List;
  */
 public interface IssueServiceImpl {
 
-    List<Issue> getIssues();
+    List<DefaultIssue> getIssues();
 
-    Issue getIssue(long id);
+    DefaultIssue getIssue(long id);
 
-    List<Issue> getIssueByAppId(long appId);
+    List<DefaultIssue> getIssueByAppId(long appId);
 
-    List<Issue> getIssueByUserId(long userId);
+    List<DefaultIssue> getIssueByUserId(long userId);
 
     void deleteIssue(long id);
 
-    Issue createIssue(Issue issue, long appId, long userId);
+    DefaultIssue createIssue(DefaultIssue issue, long appId, long userId);
 
-    Issue updateIssue(Issue issue);
+    DefaultIssue updateIssue(DefaultIssue issue);
 }

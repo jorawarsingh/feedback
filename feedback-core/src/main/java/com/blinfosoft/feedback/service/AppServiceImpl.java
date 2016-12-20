@@ -5,8 +5,9 @@
  */
 package com.blinfosoft.feedback.service;
 
-import com.blinfosoft.feedback.entity.App;
-import com.blinfosoft.feedback.entity.Account;
+import com.blinfosoft.feedback.entity.DefaultApp;
+import com.blinfosoft.feedback.entity.DefaultAccount;
+import com.blinfosoft.feedback.entity.impl.App;
 import java.util.List;
 
 /**

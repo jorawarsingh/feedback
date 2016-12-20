@@ -5,8 +5,8 @@
  */
 package com.blinfosoft.feedback.service;
 
-import com.blinfosoft.feedback.entity.Account;
-import com.blinfosoft.feedback.entity.User;
+import com.blinfosoft.feedback.entity.DefaultAccount;
+import com.blinfosoft.feedback.entity.DefaultUser;
 import com.blinfosoft.feedback.exception.FeedbackException;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -30,12 +30,12 @@ public class UserService implements UserImpl {
     }
 
     @Override
-    public User getUser(long userId) {
+    public DefaultUser getUser(long userId) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.clear();
-            User user = em.find(User.class, userId);
+            DefaultUser user = em.find(DefaultUser.class, userId);
             return user;
         } catch (Exception e) {
             throw new FeedbackException("could not find user with id :- " + userId, e);
@@ -47,13 +47,13 @@ public class UserService implements UserImpl {
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<DefaultUser> getUsers() {
         EntityManager em = null;
-        TypedQuery<User> query = null;
+        TypedQuery<DefaultUser> query = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            query = em.createQuery("from User", User.class);
+            query = em.createQuery("from User", DefaultUser.class);
             em.getTransaction().commit();
             return query.getResultList();
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class UserService implements UserImpl {
     }
 
     @Override
-    public User createUser(User user) {
+    public DefaultUser createUser(DefaultUser user) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -84,17 +84,17 @@ public class UserService implements UserImpl {
     }
 
     @Override
-    public User updateUser(User user) {
+    public DefaultUser updateUser(DefaultUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void deleteUser(long userId) {
            EntityManager em = null;
-        User user = null;
+        DefaultUser user = null;
         try {
             em = getEntityManager();
-            user = em.find(User.class, userId);
+            user = em.find(DefaultUser.class, userId);
             em.getTransaction().begin();
             em.remove(user);
             em.getTransaction().commit();

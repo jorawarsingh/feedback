@@ -5,27 +5,31 @@
  */
 package com.blinfosoft.feedback.service;
 
-import com.blinfosoft.feedback.entity.App;
-import com.blinfosoft.feedback.entity.Account;
+import com.blinfosoft.feedback.entity.DefaultApp;
+import com.blinfosoft.feedback.entity.DefaultAccount;
+import com.blinfosoft.feedback.entity.DomainEntity;
+import com.blinfosoft.feedback.entity.impl.Account;
+import com.blinfosoft.feedback.exception.AccountNotFoundException;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author js
  */
-public interface AccountServiceImpl {
+public interface AccountServiceImpl extends DomainEntity<Long>, Serializable {
 
-    Account getAccount(long adminId);
+    Account getAccount(long adminId) throws AccountNotFoundException;
 
-    Account getAccountByName(String userName);
+    Account getAccountByName(String userName) throws AccountNotFoundException;
 
     List<Account> getAccounts();
 
     Account createAccount(Account user);
 
-    Account createAccountAndApp(Account user, App app);
+    void deleteAccount(long adminId) throws AccountNotFoundException;
 
-    void deleteAccount(long adminId);
+    Account updateAccount(Account user) throws AccountNotFoundException;
 
-    Account updateAccount(Account user);
+    boolean accountAlreadyExist(String accountName);
 }

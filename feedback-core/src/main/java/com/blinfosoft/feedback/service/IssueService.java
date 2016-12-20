@@ -5,9 +5,9 @@
  */
 package com.blinfosoft.feedback.service;
 
-import com.blinfosoft.feedback.entity.App;
-import com.blinfosoft.feedback.entity.Issue;
-import com.blinfosoft.feedback.entity.User;
+import com.blinfosoft.feedback.entity.DefaultApp;
+import com.blinfosoft.feedback.entity.DefaultIssue;
+import com.blinfosoft.feedback.entity.DefaultUser;
 import com.blinfosoft.feedback.exception.FeedbackException;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -31,13 +31,13 @@ public class IssueService implements IssueServiceImpl {
     }
 
     @Override
-    public List<Issue> getIssues() {
+    public List<DefaultIssue> getIssues() {
         EntityManager em = null;
-        TypedQuery<Issue> query = null;
+        TypedQuery<DefaultIssue> query = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            query = em.createQuery("from Issue", Issue.class);
+            query = em.createQuery("from Issue", DefaultIssue.class);
             em.getTransaction().commit();
             return query.getResultList();
         } catch (Exception e) {
@@ -50,12 +50,12 @@ public class IssueService implements IssueServiceImpl {
     }
 
     @Override
-    public Issue getIssue(long id) {
+    public DefaultIssue getIssue(long id) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.clear();
-            Issue issue = em.find(Issue.class, id);
+            DefaultIssue issue = em.find(DefaultIssue.class, id);
             return issue;
         } catch (Exception e) {
             throw new FeedbackException("could not find issue with id :- " + id, e);
@@ -69,10 +69,10 @@ public class IssueService implements IssueServiceImpl {
     @Override
     public void deleteIssue(long id) {
         EntityManager em = null;
-        Issue issue = null;
+        DefaultIssue issue = null;
         try {
             em = getEntityManager();
-            issue = em.find(Issue.class, id);
+            issue = em.find(DefaultIssue.class, id);
             em.getTransaction().begin();
             em.remove(issue);
             em.getTransaction().commit();
@@ -86,10 +86,10 @@ public class IssueService implements IssueServiceImpl {
     }
 
     @Override
-    public Issue createIssue(Issue issue, long appId, long userId) {
+    public DefaultIssue createIssue(DefaultIssue issue, long appId, long userId) {
         EntityManager em = null;
-        App app = new App();
-        User user = new User();
+        DefaultApp app = new DefaultApp();
+        DefaultUser user = new DefaultUser();
         AppService appService = new AppService(emf);
         UserService userService = new UserService(emf);
         try {
@@ -112,7 +112,7 @@ public class IssueService implements IssueServiceImpl {
     }
 
     @Override
-    public Issue updateIssue(Issue issue) {
+    public DefaultIssue updateIssue(DefaultIssue issue) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -131,14 +131,14 @@ public class IssueService implements IssueServiceImpl {
     }
 
     @Override
-    public List<Issue> getIssueByAppId(long appId) {
+    public List<DefaultIssue> getIssueByAppId(long appId) {
          EntityManager em = null;
         String q = "SELECT i FROM Issue i where App_Id = "+appId;
-        TypedQuery<Issue> query = null;
+        TypedQuery<DefaultIssue> query = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            query = em.createQuery(q, Issue.class);
+            query = em.createQuery(q, DefaultIssue.class);
             em.getTransaction().commit();
             return query.getResultList();
         } catch (Exception e) {
@@ -151,14 +151,14 @@ public class IssueService implements IssueServiceImpl {
     }
 
     @Override
-    public List<Issue> getIssueByUserId(long userId) {
+    public List<DefaultIssue> getIssueByUserId(long userId) {
          EntityManager em = null;
         String q = "SELECT i FROM Issue i where User_Id = "+userId;
-        TypedQuery<Issue> query = null;
+        TypedQuery<DefaultIssue> query = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            query = em.createQuery(q, Issue.class);
+            query = em.createQuery(q, DefaultIssue.class);
             em.getTransaction().commit();
             return query.getResultList();
         } catch (Exception e) {

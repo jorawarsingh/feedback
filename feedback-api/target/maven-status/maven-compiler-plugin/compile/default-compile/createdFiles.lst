@@ -10,4 +10,5 @@ com\blinfosoft\feedback\api\IssueResources.class
 com\blinfosoft\feedback\dto\out\AppDTO.class
 com\blinfosoft\feedback\dto\out\AccountDTO.class
 com\blinfosoft\feedback\api\AccountResources.class
+com\blinfosoft\feedback\api\Root.class
 com\blinfosoft\feedback\dto\out\DTOFactory.class
