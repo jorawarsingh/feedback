@@ -5,9 +5,7 @@
  */
 package com.blinfosoft.feedback.entity;
 
-import com.blinfosoft.feedback.entity.impl.Account;
 import com.blinfosoft.feedback.entity.impl.App;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -35,10 +33,9 @@ public class DefaultApp implements App {
     @Column(name = "App_Id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(unique = true)
     private String name;
     @OneToMany(mappedBy = "app", cascade = CascadeType.ALL,fetch=FetchType.LAZY)
-    private Collection<DefaultIssue> issue;
+    private Collection<DefaultIssue> issue = new LinkedHashSet<DefaultIssue>();
     @ManyToOne
     @JoinColumn(name = "Account_Id", nullable = false)
     private DefaultAccount account;
@@ -68,13 +65,14 @@ public class DefaultApp implements App {
         return account;
     }
 
-    @Override
-    public void setAccount(DefaultAccount account) {
-        this.account = account;
-    }
 
     @Override
     public Long getId() {
         return this.id;
+    }
+
+    @Override
+    public void setAccount(DefaultAccount account) {
+        this.account = account;
     }
 }

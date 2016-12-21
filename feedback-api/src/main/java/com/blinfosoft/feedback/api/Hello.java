@@ -17,11 +17,18 @@ import javax.ws.rs.core.Response;
  */
 @Path("/hello")
 public class Hello {
+
     private DefaultIssue issue = new DefaultIssue();
+
     @GET
-	@Path("/{param}")
-	public Response getMsg(@PathParam("param") String msg) {
-		issue.setTitle(msg);
-		return Response.status(200).entity("q").build();
-	}
+    public Response getMsgs(@PathParam("param") String msg) {
+        issue.setTitle(msg);
+        return Response.status(200).entity("without id").build();
+    }
+    @GET
+    @Path("/{param}")
+    public Response getMsg(@PathParam("param") String msg) {
+        issue.setTitle(msg);
+        return Response.status(200).entity("with id").build();
+    }
 }

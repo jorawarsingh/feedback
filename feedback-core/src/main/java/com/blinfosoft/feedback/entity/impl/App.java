@@ -28,5 +28,5 @@ public interface App extends DomainEntity<Long>, Serializable{
 
     public DefaultAccount getAccount();
 
-    public void setAccount(DefaultAccount admin);
+    public void setAccount(DefaultAccount account);
 }

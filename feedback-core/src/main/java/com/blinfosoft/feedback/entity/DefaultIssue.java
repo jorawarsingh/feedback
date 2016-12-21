@@ -5,6 +5,7 @@
  */
 package com.blinfosoft.feedback.entity;
 
+import com.blinfosoft.feedback.entity.impl.App;
 import com.blinfosoft.feedback.entity.impl.Issue;
 import java.io.Serializable;
 import java.util.Date;
@@ -28,7 +29,7 @@ import javax.persistence.TemporalType;
 @Table(name = "issue")
 public class DefaultIssue implements Issue {
 
-   @Id
+    @Id
     @Column(name = "Issue_Id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

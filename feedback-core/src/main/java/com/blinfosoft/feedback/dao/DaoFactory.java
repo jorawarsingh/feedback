@@ -21,4 +21,13 @@ public class DaoFactory {
     public AccountDao getAccountDao() {
         return new AccountDao(emFactory);
     }
+    public AppDao getAppDao() {
+        return new AppDao(emFactory);
+    }
+    public IssueDao getIssueDao() {
+        return new IssueDao(emFactory);
+    }
+    public UserDao getUserDao() {
+        return new UserDao(emFactory);
+    }
 }

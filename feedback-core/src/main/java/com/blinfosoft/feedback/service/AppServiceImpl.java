@@ -5,9 +5,10 @@
  */
 package com.blinfosoft.feedback.service;
 
-import com.blinfosoft.feedback.entity.DefaultApp;
-import com.blinfosoft.feedback.entity.DefaultAccount;
 import com.blinfosoft.feedback.entity.impl.App;
+import com.blinfosoft.feedback.exception.AccountNotFoundException;
+import com.blinfosoft.feedback.exception.AppNotFoundException;
+import com.blinfosoft.feedback.exception.NoAppFound;
 import java.util.List;
 
 /**
@@ -16,18 +17,16 @@ import java.util.List;
  */
 public interface AppServiceImpl {
 
-    App getApp(long id);
+    App getApp(long id) throws AppNotFoundException;
 
     List<App> getApps();
 
-    List<App> getAppsByAdmin(long adminId);
+    List<App> getAppsByAccount(long adminId) throws NoAppFound;
 
-    void deleteApp(long id);
+    void deleteApp(long id) throws AppNotFoundException;
 
-    App createAppByUser(App app, long userId);
+    App createAppByAccount(App app, long userId) throws AccountNotFoundException;
 
-    App createApp(App app);
-
-    App updateApp(App app);
+    App updateApp(App app) throws AppNotFoundException;
 
 }

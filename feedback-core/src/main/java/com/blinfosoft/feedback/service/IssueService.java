@@ -8,6 +8,7 @@ package com.blinfosoft.feedback.service;
 import com.blinfosoft.feedback.entity.DefaultApp;
 import com.blinfosoft.feedback.entity.DefaultIssue;
 import com.blinfosoft.feedback.entity.DefaultUser;
+import com.blinfosoft.feedback.entity.impl.App;
 import com.blinfosoft.feedback.exception.FeedbackException;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -87,27 +88,7 @@ public class IssueService implements IssueServiceImpl {
 
     @Override
     public DefaultIssue createIssue(DefaultIssue issue, long appId, long userId) {
-        EntityManager em = null;
-        DefaultApp app = new DefaultApp();
-        DefaultUser user = new DefaultUser();
-        AppService appService = new AppService(emf);
-        UserService userService = new UserService(emf);
-        try {
-            user = userService.getUser(userId);
-            app = appService.getApp(appId);
-            issue.setApp(app);
-            issue.setUser(user);
-            em = getEntityManager();
-            em.getTransaction().begin();
-            em.persist(issue);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+    
         return issue;
     }
 

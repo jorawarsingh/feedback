@@ -2,7 +2,9 @@
 import com.blinfosoft.feedback.dao.DaoFactory;
 import com.blinfosoft.feedback.dao.FeedbackEntityManagerFactory;
 import com.blinfosoft.feedback.entity.impl.Account;
+import com.blinfosoft.feedback.exception.AccountNotFoundException;
 import com.blinfosoft.feedback.service.AccountService;
+import com.blinfosoft.feedback.service.AppService;
 import java.util.List;
 
 /*
@@ -16,9 +18,11 @@ import java.util.List;
  */
 public class Main {
 
-    public static void main(String[] args) {
-        AccountService accountService = new AccountService(new DaoFactory(FeedbackEntityManagerFactory.getInstance()));
-        List<Account> accountList = accountService.getAccounts();
-        accountList.forEach(account -> System.err.println(account.getAccountName()));
+    public static void main(String[] args) throws AccountNotFoundException {
+        AppService appService = new AppService(new DaoFactory(FeedbackEntityManagerFactory.getInstance()));
+        appService.getApps();
+       /* AccountService accountService = new AccountService(new DaoFactory(FeedbackEntityManagerFactory.getInstance()));
+        Account account = accountService.getAccount(1);
+       System.out.println(account.getLicense());*/
     }
 }

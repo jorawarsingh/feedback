@@ -5,11 +5,15 @@
  */
 package com.blinfosoft.feedback.service;
 
-import com.blinfosoft.feedback.entity.DefaultApp;
+import com.blinfosoft.feedback.dao.DaoFactory;
 import com.blinfosoft.feedback.entity.DefaultAccount;
+import com.blinfosoft.feedback.entity.DefaultApp;
 import com.blinfosoft.feedback.entity.impl.Account;
 import com.blinfosoft.feedback.entity.impl.App;
+import com.blinfosoft.feedback.exception.AccountNotFoundException;
+import com.blinfosoft.feedback.exception.AppNotFoundException;
 import com.blinfosoft.feedback.exception.FeedbackException;
+import com.blinfosoft.feedback.exception.NoAppFound;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -21,131 +25,62 @@ import javax.persistence.TypedQuery;
  */
 public class AppService implements AppServiceImpl {
 
-    private final EntityManagerFactory emf;
+    private final DaoFactory daoFactory;
 
-    public AppService(EntityManagerFactory emf) {
-        this.emf = emf;
+    protected DaoFactory getDaoFactory() {
+        return daoFactory;
     }
 
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
-
-    @Override
-    public DefaultApp getApp(long id) {
-        EntityManager em = null;
-        try {
-            em = getEntityManager();
-            em.clear();
-            DefaultApp app = em.find(DefaultApp.class, id);
-            return app;
-        } catch (Exception e) {
-            throw new FeedbackException("could not find app with id :- " + id, e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+    public AppService(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
     }
 
     @Override
-    public void deleteApp(long id) {
-        EntityManager em = null;
-        App app = null;
-        try {
-            em = getEntityManager();
-            app = em.find(DefaultApp.class, id);
-            em.getTransaction().begin();
-            em.remove(app);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            throw new FeedbackException("could not delete user with id: " + id, e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+    public App getApp(long id) throws AppNotFoundException {
+        return getDaoFactory().getAppDao().findByPrimaryKey(id).orElseThrow(() -> {
+            return new AppNotFoundException(id);
+        });
     }
 
     @Override
-    public App createApp(App app) {
-        EntityManager em = null;
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            em.persist(app);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-        return app;
+    public void deleteApp(long id) throws AppNotFoundException {
+        App app = getDaoFactory().getAppDao().findByPrimaryKey(id).orElseThrow(() -> {
+            return new AppNotFoundException(id);
+        });
+        getDaoFactory().getAppDao().destroy(app);
     }
 
     @Override
-    public App updateApp(App app) {
-        EntityManager em = null;
-        try {
-            em = getEntityManager();
-//            session = em.find(Session.class, s.getUUID());
-            em.getTransaction().begin();
-            app = em.merge(app);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            throw new FeedbackException("cound not update" + app, e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+    public App updateApp(App indata) throws AppNotFoundException {
+        App app = getDaoFactory().getAppDao().findByPrimaryKey(indata.getId()).orElseThrow(() -> {
+            return new AppNotFoundException(indata.getId());
+        });
+        getDaoFactory().getAppDao().executeInTransaction((em) -> em.merge(indata));
         return app;
     }
 
     @Override
     public List<App> getApps() {
-        EntityManager em = null;
-        TypedQuery<App> query = null;
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            query = em.createQuery("from App", App.class);
-            em.getTransaction().commit();
-            return query.getResultList();
-        } catch (Exception e) {
-            throw new FeedbackException("unknown error", e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        return getDaoFactory().getAppDao().findAll();
     }
 
     @Override
-    public App createAppByUser(App app, long userId) {
-      
+    public App createAppByAccount(App app, long accountId) throws AccountNotFoundException{
+        DefaultAccount account = (DefaultAccount) getDaoFactory().getAccountDao().findByPrimaryKey(accountId).orElseThrow(()->{
+            return new AccountNotFoundException(accountId);
+        });
+        app.setAccount(account);
+        try {
+            getDaoFactory().getAppDao().executeInTransaction((em) -> em.persist(app));
+        } catch (Exception e) {
+        }
         return app;
     }
 
     @Override
-    public List<App> getAppsByAdmin(long adminId) {
-        EntityManager em = null;
-        String q = "SELECT a FROM App a where Admin_Id = "+adminId;
-        TypedQuery<App> query = null;
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            query = em.createQuery(q, App.class);
-            em.getTransaction().commit();
-            return query.getResultList();
-        } catch (Exception e) {
-            throw new FeedbackException("unknown error", e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+    public List<App> getAppsByAccount(long accountId) throws NoAppFound {
+        return getDaoFactory().getAppDao().findByAccountId(accountId).orElseThrow(() -> {
+            return new NoAppFound(accountId);
+        });
     }
 }

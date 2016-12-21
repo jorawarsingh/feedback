@@ -22,5 +22,9 @@ public class AppNotFoundException extends Exception{
     public AppNotFoundException(Throwable cause) {
         super(cause);
     }
+
+    public AppNotFoundException(long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
