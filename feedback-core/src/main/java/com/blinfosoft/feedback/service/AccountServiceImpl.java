@@ -32,4 +32,6 @@ public interface AccountServiceImpl extends DomainEntity<Long>, Serializable {
     Account updateAccount(Account user) throws AccountNotFoundException;
 
     boolean accountAlreadyExist(String accountName);
+    
+    boolean verfyAccount(String license);
 }

@@ -40,4 +40,12 @@ public class AccountDao extends GenericDao<Account, Long> {
             return account;
         });
     }
+    public Optional<DefaultAccount> verifyAccount(String license) {
+        final String queryStr = license != null ? license.trim() : null;
+        return execute((em) -> {
+            Query query = em.createNativeQuery("SELECT * FROM account WHERE license = \'" + queryStr + "\'", DefaultAccount.class);
+            DefaultAccount account = (DefaultAccount) query.getSingleResult();
+            return account;
+        });
+    }
 }

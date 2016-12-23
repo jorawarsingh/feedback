@@ -86,4 +86,9 @@ public class AccountService implements AccountServiceImpl {
         return getDaoFactory().getAccountDao().isAccountExist(name).isPresent();
     }
 
+    @Override
+    public boolean verfyAccount(String license){       
+       return  getDaoFactory().getAccountDao().verifyAccount(license).isPresent();
+    }
+
 }
