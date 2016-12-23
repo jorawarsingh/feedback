@@ -5,13 +5,16 @@
  */
 package com.blinfosoft.feedback.service;
 
+import com.blinfosoft.feedback.dao.DaoFactory;
 import com.blinfosoft.feedback.entity.DefaultAccount;
 import com.blinfosoft.feedback.entity.DefaultUser;
-import com.blinfosoft.feedback.exception.FeedbackException;
+import com.blinfosoft.feedback.entity.impl.Account;
+import com.blinfosoft.feedback.entity.impl.User;
+import com.blinfosoft.feedback.exception.AccountNotFoundException;
+import com.blinfosoft.feedback.exception.UserNotFoundExceptions;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.TypedQuery;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,91 +22,61 @@ import javax.persistence.TypedQuery;
  */
 public class UserService implements UserImpl {
 
-    private final EntityManagerFactory emf;
-
-    public UserService(EntityManagerFactory emf) {
-        this.emf = emf;
+    public UserService(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
     }
 
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
+    private final DaoFactory daoFactory;
 
-    @Override
-    public DefaultUser getUser(long userId) {
-        EntityManager em = null;
-        try {
-            em = getEntityManager();
-            em.clear();
-            DefaultUser user = em.find(DefaultUser.class, userId);
-            return user;
-        } catch (Exception e) {
-            throw new FeedbackException("could not find user with id :- " + userId, e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+    protected DaoFactory getDaoFactory() {
+        return daoFactory;
     }
 
     @Override
-    public List<DefaultUser> getUsers() {
-        EntityManager em = null;
-        TypedQuery<DefaultUser> query = null;
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            query = em.createQuery("from User", DefaultUser.class);
-            em.getTransaction().commit();
-            return query.getResultList();
-        } catch (Exception e) {
-            throw new FeedbackException("unknown error", e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+    public User getUser(long userId) throws UserNotFoundExceptions {
+        return getDaoFactory().getUserDao().findByPrimaryKey(userId).orElseThrow(() -> {
+            return new UserNotFoundExceptions(userId);
+        });
     }
 
     @Override
-    public DefaultUser createUser(DefaultUser user) {
-        EntityManager em = null;
+    public List<User> getUsers(long accountId) throws AccountNotFoundException{
+        return getDaoFactory().getUserDao().findByAccountId(accountId).orElseThrow(() -> {
+            return new AccountNotFoundException(accountId);
+        });
+    }
+
+    @Override
+    public User createUser(User user, long accountId) {
+        AccountService accountService = new AccountService(daoFactory);
+        Account account = new DefaultAccount();
         try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            em.persist(user);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
+            account = accountService.getAccount(accountId);
+        } catch (AccountNotFoundException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
+        user.setAccount(account);
+        getDaoFactory().getUserDao().executeInTransaction((cm) -> cm.persist(user));
         return user;
     }
 
     @Override
-    public DefaultUser updateUser(DefaultUser user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void deleteUser(long userId) {
+        User user = getUser(userId);
+        getDaoFactory().getUserDao().destroy(user);
     }
 
     @Override
-    public void deleteUser(long userId) {
-           EntityManager em = null;
-        DefaultUser user = null;
+    public User updateUser(User user, long accountId) {
+         AccountService accountService = new AccountService(daoFactory);
+        Account account = new DefaultAccount();
         try {
-            em = getEntityManager();
-            user = em.find(DefaultUser.class, userId);
-            em.getTransaction().begin();
-            em.remove(user);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            throw new FeedbackException("could not delete user with id: " + userId, e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
+            account = accountService.getAccount(accountId);
+        } catch (AccountNotFoundException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
+        user.setAccount(account);
+        getDaoFactory().getUserDao().executeInTransaction((cm) -> cm.merge(user));
+        return user;
     }
 }

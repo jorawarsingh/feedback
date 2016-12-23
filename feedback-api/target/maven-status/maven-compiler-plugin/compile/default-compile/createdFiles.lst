@@ -1,4 +1,5 @@
 com\blinfosoft\feedback\api\AppResources.class
+com\blinfosoft\feedback\dto\in\CreateUserDTO.class
 com\blinfosoft\feedback\api\UserResources.class
 com\blinfosoft\feedback\dto\in\CreateAccountDTO.class
 com\blinfosoft\feedback\dto\out\IssueDTO.class
@@ -8,6 +9,7 @@ com\blinfosoft\feedback\dto\in\CreateAppDTO.class
 com\blinfosoft\feedback\api\Hello.class
 com\blinfosoft\feedback\api\IssueResources.class
 com\blinfosoft\feedback\dto\out\AppDTO.class
+com\blinfosoft\feedback\dto\out\UserDTO.class
 com\blinfosoft\feedback\dto\out\AccountDTO.class
 com\blinfosoft\feedback\api\RootResources.class
 com\blinfosoft\feedback\api\AccountResources.class

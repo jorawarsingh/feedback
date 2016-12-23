@@ -6,9 +6,11 @@
 package com.blinfosoft.feedback.entity.impl;
 
 import com.blinfosoft.feedback.entity.DefaultApp;
+import com.blinfosoft.feedback.entity.DefaultUser;
 import com.blinfosoft.feedback.entity.DomainEntity;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Set;
 
 /**
  *
@@ -32,7 +34,11 @@ public interface Account extends DomainEntity<Long>, Serializable {
 
     public String setLicense(String license);
 
-    public Collection<DefaultApp> getApp();
+    public Set<DefaultApp> getApp();
 
-    public void setApp(Collection<DefaultApp> app);
+    public void setApp(Set<DefaultApp> app);
+
+    public void setUser(Set<DefaultUser> user);
+
+    public Set<DefaultUser> getUsers();
 }

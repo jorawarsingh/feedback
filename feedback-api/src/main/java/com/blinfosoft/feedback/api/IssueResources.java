@@ -27,7 +27,7 @@ public class IssueResources {
     @GET
     @Path("/{param}")
     @Produces("application/json")
-    public Response getIssuesByAdmin(@PathParam("param") long appId) {
+    public Response getIssuesByAccount(@PathParam("param") long appId) {
         try {
            List<DefaultIssue> issue = issueService.getIssueByAppId(appId);
             return Response.ok(new DTOFactory().getIssueList(issue)).build();
@@ -38,7 +38,7 @@ public class IssueResources {
     @GET
     @Path("user/{param}")
     @Produces("application/json")
-    public Response getAppByUser(@PathParam("param") long userId) {
+    public Response getIssuesByUser(@PathParam("param") long userId) {
         try {
            List<DefaultIssue> issue = issueService.getIssueByUserId(userId);
             return Response.ok(new DTOFactory().getIssueList(issue)).build();

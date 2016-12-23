@@ -10,6 +10,7 @@ import com.blinfosoft.feedback.entity.DefaultApp;
 import com.blinfosoft.feedback.entity.DefaultIssue;
 import com.blinfosoft.feedback.entity.impl.Account;
 import com.blinfosoft.feedback.entity.impl.App;
+import com.blinfosoft.feedback.entity.impl.User;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class DTOFactory {
         });
         return adminListDTO;
     }
+
     public AppDTO getApp(App app) {
         AppDTO appDTO = new AppDTO();
         appDTO.setId(app.getId());
@@ -49,7 +51,7 @@ public class DTOFactory {
         });
         return appListDTO;
     }
-    
+
     public IssueDTO getIssue(DefaultIssue issue) {
         IssueDTO issueDTO = new IssueDTO();
         issueDTO.setId(issue.getId());
@@ -63,5 +65,23 @@ public class DTOFactory {
             issueListDTO.add(getIssue(app));
         });
         return issueListDTO;
+    }
+
+    public UserDTO getUser(User user) {
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setUserName(user.getUserName());
+        dto.setEmail(user.getEmail());
+        return dto;
+    }
+
+    public List<UserDTO> getUserList(List<User> user) {
+        List<UserDTO> list = new ArrayList<>();
+        user.stream().forEach((u) -> {
+            list.add(getUser(u));
+        });
+        return list;
     }
 }

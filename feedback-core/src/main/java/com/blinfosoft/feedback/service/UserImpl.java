@@ -7,6 +7,10 @@ package com.blinfosoft.feedback.service;
 
 import com.blinfosoft.feedback.entity.DefaultIssue;
 import com.blinfosoft.feedback.entity.DefaultUser;
+import com.blinfosoft.feedback.entity.impl.Account;
+import com.blinfosoft.feedback.entity.impl.User;
+import com.blinfosoft.feedback.exception.AccountNotFoundException;
+import com.blinfosoft.feedback.exception.UserNotFoundExceptions;
 import java.util.List;
 
 /**
@@ -15,13 +19,14 @@ import java.util.List;
  */
 public interface UserImpl {
 
-    DefaultUser getUser(long userId);
+    User getUser(long userId) throws UserNotFoundExceptions;
 
-    List<DefaultUser> getUsers();
+    List<User> getUsers(long accountId) throws AccountNotFoundException;
 
-    DefaultUser createUser(DefaultUser user);
+    User createUser(User user, long accountId);
 
-    DefaultUser updateUser(DefaultUser user);
+    User updateUser(User user, long accountId);
 
     void deleteUser(long userId);
+    
 }

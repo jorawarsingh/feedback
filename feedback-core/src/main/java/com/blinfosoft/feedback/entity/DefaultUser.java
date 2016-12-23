@@ -5,6 +5,8 @@
  */
 package com.blinfosoft.feedback.entity;
 
+import com.blinfosoft.feedback.entity.impl.Account;
+import com.blinfosoft.feedback.entity.impl.Issue;
 import com.blinfosoft.feedback.entity.impl.User;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -16,6 +18,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -27,7 +31,7 @@ import javax.persistence.Table;
 @Table(name = "User")
 public class DefaultUser implements User {
 
-   @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "User_Id", nullable = false)
     private long id;
@@ -37,18 +41,11 @@ public class DefaultUser implements User {
     private String lastName;
     @Column(unique = true, nullable = false)
     private String email;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<DefaultIssue> issue = new LinkedHashSet<DefaultIssue>();
-
-    @Override
-    public Collection<DefaultIssue> getIssue() {
-        return issue;
-    }
-
-    @Override
-    public void setIssue(Set<DefaultIssue> issue) {
-        this.issue = issue;
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<DefaultIssue> issue;
+    @ManyToOne
+    @JoinColumn(name = "Account_Id", nullable = false)
+    private DefaultAccount account;
 
     @Override
     public void setId(long id) {
@@ -97,7 +94,26 @@ public class DefaultUser implements User {
 
     @Override
     public Long getId() {
-         return this.id;
+        return this.id;
     }
 
+    @Override
+    public Account getAccount() {
+        return this.account;
+    }
+
+    @Override
+    public void setAccount(Account account) {
+        this.account = (DefaultAccount) account;
+    }
+
+    @Override
+    public Collection<DefaultIssue> getIssue() {
+        return  this.issue;
+    }
+
+    @Override
+    public void setIssue(Set<DefaultIssue> issue) {
+        this.issue = issue;
+    }
 }

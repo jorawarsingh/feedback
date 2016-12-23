@@ -5,6 +5,7 @@
  */
 package com.blinfosoft.feedback.entity.impl;
 
+import com.blinfosoft.feedback.entity.DefaultAccount;
 import com.blinfosoft.feedback.entity.DefaultIssue;
 import com.blinfosoft.feedback.entity.DomainEntity;
 import java.io.Serializable;
@@ -15,7 +16,7 @@ import java.util.Set;
  *
  * @author js
  */
-public interface User extends DomainEntity<Long>, Serializable{
+public interface User extends DomainEntity<Long>, Serializable {
 
     public Collection<DefaultIssue> getIssue();
 
@@ -38,4 +39,9 @@ public interface User extends DomainEntity<Long>, Serializable{
     public String getEmail();
 
     public void setEmail(String email);
+
+    public Account getAccount();
+
+    public void setAccount(Account account);
+
 }

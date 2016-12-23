@@ -9,6 +9,7 @@ import com.blinfosoft.feedback.entity.impl.Account;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,8 +40,9 @@ public class DefaultAccount implements Account {
     @Column(unique = true)
     private String license;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Collection<DefaultApp> app = new LinkedHashSet<DefaultApp>();
-
+    private Set<DefaultApp> app;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<DefaultUser> user;
     @Override
     public String getAccountName() {
         return this.name;
@@ -87,12 +89,22 @@ public class DefaultAccount implements Account {
     }
 
     @Override
-    public Collection<DefaultApp> getApp() {
+    public Set<DefaultApp> getApp() {
         return this.app;
     }
 
     @Override
-    public void setApp(Collection<DefaultApp> app) {
+    public void setApp(Set<DefaultApp> app) {
         this.app = app;
+    }
+
+    @Override
+    public void setUser(Set<DefaultUser> user) {
+         this.user = user;
+    }
+
+    @Override
+    public Set<DefaultUser> getUsers() {
+        return this.user;
     }
 }

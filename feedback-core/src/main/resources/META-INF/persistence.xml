@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-    <persistence-unit name="com.blinfosoft-jpa" transaction-type="RESOURCE_LOCAL">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>com.blinfosoft.feedback.entity.DefaultAccount</class>
-        <class>com.blinfosoft.feedback.entity.DefaultApp</class>
-        <class>com.blinfosoft.feedback.entity.DefaultIssue</class>
-        <class>com.blinfosoft.feedback.entity.DefaultUser</class>
-        <properties>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <property name="hibernate.c3p0.max_size" value="100"/>
-            <property name="hibernate.c3p0.min_size" value="10"/>
-            <property name="hibernate.c3p0.acquire_increment" value="2"/>
-            <property name="hibernate.c3p0.idle_test_period" value="300"/>
-            <property name="hibernate.c3p0.timeout" value="1800"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-        </properties>
-    </persistence-unit>
+  <persistence-unit name="com.blinfosoft-jpa" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>com.blinfosoft.feedback.entity.DefaultAccount</class>
+    <class>com.blinfosoft.feedback.entity.DefaultApp</class>
+    <class>com.blinfosoft.feedback.entity.DefaultIssue</class>
+    <class>com.blinfosoft.feedback.entity.DefaultUser</class>
+    <properties>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <property name="hibernate.c3p0.max_size" value="100"/>
+      <property name="hibernate.c3p0.min_size" value="10"/>
+      <property name="hibernate.c3p0.acquire_increment" value="2"/>
+      <property name="hibernate.c3p0.idle_test_period" value="300"/>
+      <property name="hibernate.c3p0.timeout" value="1800"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+    </properties>
+  </persistence-unit>
 </persistence>

@@ -34,8 +34,8 @@ public class DefaultApp implements App {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    @OneToMany(mappedBy = "app", cascade = CascadeType.ALL,fetch=FetchType.LAZY)
-    private Collection<DefaultIssue> issue = new LinkedHashSet<DefaultIssue>();
+    @OneToMany(mappedBy = "app", cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+    private Set<DefaultIssue> issue;
     @ManyToOne
     @JoinColumn(name = "Account_Id", nullable = false)
     private DefaultAccount account;
