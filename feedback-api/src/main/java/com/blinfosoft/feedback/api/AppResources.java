@@ -10,9 +10,14 @@ import com.blinfosoft.feedback.dao.FeedbackEntityManagerFactory;
 import com.blinfosoft.feedback.dto.out.DTOFactory;
 import com.blinfosoft.feedback.entity.DefaultApp;
 import com.blinfosoft.feedback.entity.impl.App;
+import com.blinfosoft.feedback.exception.AccountNotFoundException;
+import com.blinfosoft.feedback.exception.AppAlreadyExistExceptions;
+import com.blinfosoft.feedback.exception.AppNotFoundException;
+import com.blinfosoft.feedback.exception.FeedbackException;
 import com.blinfosoft.feedback.service.AppService;
 import java.util.List;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -26,7 +31,7 @@ import javax.ws.rs.core.Response;
 @Path("/apps")
 public class AppResources {
     private final AppService appService = new AppService(new DaoFactory(FeedbackEntityManagerFactory.getInstance()));
-    @GET
+   /*@GET
     @Produces("application/json")
     public Response getAppList() {
         try {
@@ -36,13 +41,12 @@ public class AppResources {
         } catch (Exception e) {
             return Response.serverError().entity("error").build();
         }        
-    } 
+    } */
     @GET
-    @Path("/{param}")
     @Produces("application/json")
-    public Response getAppsByAccount(@PathParam("param") long id) {
+    public Response getAppsByAccount(@HeaderParam("authorization") String userAgent) {
         try {
-            List<App> app = appService.getAppsByAccount(id);
+            List<App> app = appService.getAppsByAccount(userAgent);
             //   admin.forEach(item->System.out.println(item.getName()));
             return Response.ok(new DTOFactory().getAppList(app)).build();
         } catch (Exception e) {
@@ -50,13 +54,12 @@ public class AppResources {
         }        
     } 
     @POST
-    @Path("/{param}")
     @Produces("application/json")
-    public Response createAppsByAccount(@PathParam("param") long id, DefaultApp indata) {
+    public Response createAppsByAccount(@HeaderParam("authorization") String userAgent,@PathParam("param") long id, DefaultApp indata)throws AppAlreadyExistExceptions, AccountNotFoundException, AppNotFoundException {
         try {
-            App app = appService.createAppByAccount(indata , id);
+            App app = appService.createAppByAccount(indata , userAgent);
             return Response.ok(new DTOFactory().getApp(app)).build();
-        } catch (Exception e) {
+        } catch (FeedbackException e) {
             return Response.serverError().entity(e).build();
         }        
     } 

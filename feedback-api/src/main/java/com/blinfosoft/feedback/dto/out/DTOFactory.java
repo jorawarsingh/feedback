@@ -25,7 +25,6 @@ public class DTOFactory {
         accountDTO.setId(account.getId());
         accountDTO.setEmail(account.getEmail());
         accountDTO.setName(account.getAccountName());
-        accountDTO.setUserName(account.getAccountName());
         return accountDTO;
     }
 
@@ -72,7 +71,6 @@ public class DTOFactory {
         dto.setId(user.getId());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
-        dto.setUserName(user.getUserName());
         dto.setEmail(user.getEmail());
         return dto;
     }

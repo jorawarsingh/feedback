@@ -11,6 +11,9 @@ import com.blinfosoft.feedback.entity.DefaultUser;
 import com.blinfosoft.feedback.entity.impl.Account;
 import com.blinfosoft.feedback.entity.impl.User;
 import com.blinfosoft.feedback.exception.AccountNotFoundException;
+import com.blinfosoft.feedback.exception.AppNotFoundException;
+import com.blinfosoft.feedback.exception.EmailAlreadyExistException;
+import com.blinfosoft.feedback.exception.UserAlreadyExistExceptions;
 import com.blinfosoft.feedback.exception.UserNotFoundExceptions;
 import java.util.List;
 import java.util.logging.Level;
@@ -40,14 +43,17 @@ public class UserService implements UserImpl {
     }
 
     @Override
-    public List<User> getUsers(long accountId) throws AccountNotFoundException{
+    public List<User> getUsers(long accountId) throws UserNotFoundExceptions{
         return getDaoFactory().getUserDao().findByAccountId(accountId).orElseThrow(() -> {
-            return new AccountNotFoundException(accountId);
+            return new UserNotFoundExceptions(accountId);
         });
     }
 
     @Override
-    public User createUser(User user, long accountId) {
+    public User createUser(User user, String accountId) throws UserAlreadyExistExceptions {
+        if(emailExist(user.getEmail())){
+            throw new UserAlreadyExistExceptions(user.getEmail());
+        }
         AccountService accountService = new AccountService(daoFactory);
         Account account = new DefaultAccount();
         try {
@@ -67,16 +73,21 @@ public class UserService implements UserImpl {
     }
 
     @Override
-    public User updateUser(User user, long accountId) {
+    public User updateUser(User user, String license) {
          AccountService accountService = new AccountService(daoFactory);
         Account account = new DefaultAccount();
         try {
-            account = accountService.getAccount(accountId);
+            account = accountService.getAccount(license);
         } catch (AccountNotFoundException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
         user.setAccount(account);
         getDaoFactory().getUserDao().executeInTransaction((cm) -> cm.merge(user));
         return user;
+    }
+
+    @Override
+    public boolean emailExist(String email) {
+        return getDaoFactory().getUserDao().findByAccountEmail(email).isPresent();
     }
 }

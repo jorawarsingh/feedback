@@ -11,9 +11,9 @@ import com.blinfosoft.feedback.entity.DefaultApp;
 import com.blinfosoft.feedback.entity.impl.Account;
 import com.blinfosoft.feedback.entity.impl.App;
 import com.blinfosoft.feedback.exception.AccountNotFoundException;
+import com.blinfosoft.feedback.exception.AppAlreadyExistExceptions;
 import com.blinfosoft.feedback.exception.AppNotFoundException;
 import com.blinfosoft.feedback.exception.FeedbackException;
-import com.blinfosoft.feedback.exception.NoAppFound;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -65,9 +65,13 @@ public class AppService implements AppServiceImpl {
     }
 
     @Override
-    public App createAppByAccount(App app, long accountId) throws AccountNotFoundException{
-        DefaultAccount account = (DefaultAccount) getDaoFactory().getAccountDao().findByPrimaryKey(accountId).orElseThrow(()->{
-            return new AccountNotFoundException(accountId);
+    public App createAppByAccount(App app, String userAgent) throws AccountNotFoundException , AppNotFoundException, AppAlreadyExistExceptions{
+       if(appAlreadyExist(app.getName()))
+        {
+            throw new AppAlreadyExistExceptions(app.getName());
+        }
+        DefaultAccount account = (DefaultAccount) getDaoFactory().getAccountDao().getAccountByLicense(userAgent).orElseThrow(() -> {
+            return new AccountNotFoundException(userAgent);
         });
         app.setAccount(account);
         try {
@@ -78,9 +82,14 @@ public class AppService implements AppServiceImpl {
     }
 
     @Override
-    public List<App> getAppsByAccount(long accountId) throws NoAppFound {
-        return getDaoFactory().getAppDao().findByAccountId(accountId).orElseThrow(() -> {
-            return new NoAppFound(accountId);
+    public List<App> getAppsByAccount(String userAgent) throws AppNotFoundException {
+        return getDaoFactory().getAppDao().findByAccountLicense(userAgent).orElseThrow(() -> {
+            return new AppNotFoundException(userAgent);
         });
+    }
+
+    @Override
+    public boolean appAlreadyExist(String name) throws AppNotFoundException {
+        return getDaoFactory().getAppDao().findByAppName(name).isPresent();
     }
 }

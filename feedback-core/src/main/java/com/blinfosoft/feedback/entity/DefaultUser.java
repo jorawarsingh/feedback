@@ -35,8 +35,6 @@ public class DefaultUser implements User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "User_Id", nullable = false)
     private long id;
-    @Column(nullable = false, unique = true)
-    private String userName;
     private String firstName;
     private String lastName;
     @Column(unique = true, nullable = false)
@@ -50,16 +48,6 @@ public class DefaultUser implements User {
     @Override
     public void setId(long id) {
         this.id = id;
-    }
-
-    @Override
-    public String getUserName() {
-        return userName;
-    }
-
-    @Override
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     @Override

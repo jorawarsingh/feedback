@@ -10,6 +10,9 @@ import com.blinfosoft.feedback.entity.DefaultUser;
 import com.blinfosoft.feedback.entity.impl.Account;
 import com.blinfosoft.feedback.entity.impl.User;
 import com.blinfosoft.feedback.exception.AccountNotFoundException;
+import com.blinfosoft.feedback.exception.AppNotFoundException;
+import com.blinfosoft.feedback.exception.EmailAlreadyExistException;
+import com.blinfosoft.feedback.exception.UserAlreadyExistExceptions;
 import com.blinfosoft.feedback.exception.UserNotFoundExceptions;
 import java.util.List;
 
@@ -21,12 +24,14 @@ public interface UserImpl {
 
     User getUser(long userId) throws UserNotFoundExceptions;
 
-    List<User> getUsers(long accountId) throws AccountNotFoundException;
+    List<User> getUsers(long accountId) throws UserNotFoundExceptions;
 
-    User createUser(User user, long accountId);
+    User createUser(User user, String license) throws UserAlreadyExistExceptions;
 
-    User updateUser(User user, long accountId);
+    User updateUser(User user, String license);
 
     void deleteUser(long userId);
+    
+    boolean emailExist(String email);
     
 }

@@ -10,6 +10,7 @@ import com.blinfosoft.feedback.entity.DefaultAccount;
 import com.blinfosoft.feedback.entity.DomainEntity;
 import com.blinfosoft.feedback.entity.impl.Account;
 import com.blinfosoft.feedback.exception.AccountNotFoundException;
+import com.blinfosoft.feedback.exception.EmailAlreadyExistException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -19,19 +20,21 @@ import java.util.List;
  */
 public interface AccountServiceImpl extends DomainEntity<Long>, Serializable {
 
-    Account getAccount(long adminId) throws AccountNotFoundException;
+    Account getAccount(String license) throws AccountNotFoundException;
 
     Account getAccountByName(String userName) throws AccountNotFoundException;
 
     List<Account> getAccounts();
 
-    Account createAccount(Account user);
+    Account createAccount(Account account) throws EmailAlreadyExistException;
 
-    void deleteAccount(long adminId) throws AccountNotFoundException;
+    void deleteAccount(long accountId) throws AccountNotFoundException;
 
     Account updateAccount(Account user) throws AccountNotFoundException;
 
     boolean accountAlreadyExist(String accountName);
-    
+
     boolean verfyAccount(String license);
+
+    boolean checkEmailAlreadyExist(String email);
 }

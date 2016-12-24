@@ -33,6 +33,7 @@ public class DefaultApp implements App {
     @Column(name = "App_Id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+   @Column(unique = true, nullable = false)
     private String name;
     @OneToMany(mappedBy = "app", cascade = CascadeType.ALL,fetch=FetchType.EAGER)
     private Set<DefaultIssue> issue;

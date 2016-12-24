@@ -15,6 +15,7 @@ import com.blinfosoft.feedback.entity.DefaultAccount;
 import com.blinfosoft.feedback.entity.DefaultApp;
 import com.blinfosoft.feedback.entity.impl.Account;
 import com.blinfosoft.feedback.exception.AccountNotFoundException;
+import com.blinfosoft.feedback.exception.EmailAlreadyExistException;
 import com.blinfosoft.feedback.exception.FeedbackException;
 import com.blinfosoft.feedback.service.AccountService;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.UUID;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -38,6 +40,7 @@ public class AccountResources {
 
     private final AccountService accountService = new AccountService(new DaoFactory(FeedbackEntityManagerFactory.getInstance()));
 
+    /*
     @GET
     @Produces("application/json")
     public Response getAccountList() {
@@ -48,20 +51,20 @@ public class AccountResources {
             return Response.serverError().entity("{\"error\": \"" + e.getMessage() + "\",\"cause\": \"" + e.getCauseMsg() + "\"}").build();
         }
 
-    }
+    }*/
     @GET
-    @Path("/{param}")
     @Produces("application/json")
-    public Response getAccount(@PathParam("param") long id) throws AccountNotFoundException {
-        System.out.println("here");
+    public Response getAccount(@HeaderParam("authorization") String userAgent, @PathParam("param") long id) throws AccountNotFoundException {
+        System.out.println(userAgent);
         try {
-            Account account = accountService.getAccount(id);
+            Account account = accountService.getAccount(userAgent);
             System.out.println(account.getLicense());
             return Response.ok(new DTOFactory().getAccount(account)).build();
         } catch (FeedbackException e) {
             return Response.serverError().entity("{\"error\": \"" + e.getMessage() + "\",\"cause\": \"" + e.getCauseMsg() + "\"}").build();
         }
     }
+
     @DELETE
     @Path("/{param}")
     @Produces("application/json")
@@ -73,37 +76,32 @@ public class AccountResources {
             return Response.serverError().entity("{\"error\": \"" + e.getMessage() + "\",\"cause\": \"" + e.getCauseMsg() + "\"}").build();
         }
     }
+
     @PUT
     @Path("/{param}")
     @Produces("application/json")
     public Response updateAccount(@PathParam("param") long id, Account indata) throws AccountNotFoundException {
         try {
-           Account account =  accountService.updateAccount(indata);
+            Account account = accountService.updateAccount(indata);
             return Response.ok(new DTOFactory().getAccount(account)).build();
         } catch (FeedbackException e) {
             return Response.serverError().entity("{\"error\": \"" + e.getMessage() + "\",\"cause\": \"" + e.getCauseMsg() + "\"}").build();
         }
     }
-    
 
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    public Response createAdminAndApp(CreateAccountDTO adminDTOInput) throws AccountNotFoundException {
+    public Response createApp(CreateAccountDTO input) throws AccountNotFoundException, EmailAlreadyExistException {
         Account account = null;
         try {
-            boolean alreadyExist = accountService.accountAlreadyExist(adminDTOInput.getUserName());
-            if (!alreadyExist) {
-                account = new DefaultAccount();
-                UUID randomUUID = UUID.randomUUID();
-                account.setEmail(adminDTOInput.getEmail());
-                account.setPassword(adminDTOInput.getPassword());
-                account.setAccountName(adminDTOInput.getUserName());
-                account.setLicense(randomUUID.toString());
-                accountService.createAccount(account);
-            } else {
-                return Response.serverError().entity("{\"error\": \"account alreay exist\"}").build();
-            }
+            account = new DefaultAccount();
+            UUID randomUUID = UUID.randomUUID();
+            account.setEmail(input.getEmail());
+            account.setPassword(input.getPassword());
+            account.setAccountName(input.getName());
+            account.setLicense(randomUUID.toString());
+            accountService.createAccount(account);
             return Response.ok(new DTOFactory().getAccount(account)).build();
         } catch (FeedbackException e) {
             return Response.serverError().entity("{\"error\": \"" + e.getMessage() + "\",\"cause\": \"" + e.getCauseMsg() + "\"}").build();

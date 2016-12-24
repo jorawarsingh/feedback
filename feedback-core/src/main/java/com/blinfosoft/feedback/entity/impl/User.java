@@ -24,10 +24,6 @@ public interface User extends DomainEntity<Long>, Serializable {
 
     public void setId(long id);
 
-    public String getUserName();
-
-    public void setUserName(String userName);
-
     public String getFirstName();
 
     public void setFirstName(String firstName);

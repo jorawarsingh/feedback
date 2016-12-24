@@ -37,7 +37,6 @@ public class DefaultAccount implements Account {
     private String password;
     @Column(unique = true)
     private String name;
-    @Column(unique = true)
     private String license;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<DefaultApp> app;

@@ -8,9 +8,7 @@ package com.blinfosoft.feedback.dao;
 import com.blinfosoft.feedback.entity.DefaultAccount;
 import com.blinfosoft.feedback.entity.DefaultApp;
 import com.blinfosoft.feedback.entity.impl.App;
-import com.blinfosoft.feedback.exception.AccountNotFoundException;
 import com.blinfosoft.feedback.exception.AppNotFoundException;
-import com.blinfosoft.feedback.exception.NoAppFound;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManagerFactory;
@@ -28,14 +26,14 @@ public class AppDao extends GenericDao<App, Long>{
     public Optional<DefaultApp> findByAppName(String name) throws AppNotFoundException {
         final String queryStr = name != null ? name.trim() : null;
         return execute((em) -> {
-            Query query = em.createNativeQuery("SELECT * FROM app WHERE name = \'" + queryStr + "\'", DefaultAccount.class);
+            Query query = em.createNativeQuery("SELECT * FROM app WHERE name = \'" + queryStr + "\'", DefaultApp.class);
             DefaultApp app = (DefaultApp) query.getSingleResult();
             return app;
         });
     }
-    public Optional<List<App>> findByAccountId(long id) throws NoAppFound {
+    public Optional<List<App>> findByAccountLicense(String userAgent) throws AppNotFoundException {
         return execute((em) -> {
-            Query query = em.createNativeQuery("SELECT * FROM app WHERE Account_Id = \'" + id + "\'", DefaultAccount.class);
+            Query query = em.createNativeQuery("SELECT * FROM app a join account ac on a.Account_Id = ac.Account_Id WHERE ac.license = \'" + userAgent + "\'", DefaultApp.class);
             List<App> app = query.getResultList();
             return app;
         });

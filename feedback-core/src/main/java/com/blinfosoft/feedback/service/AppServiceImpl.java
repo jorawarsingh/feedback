@@ -7,8 +7,8 @@ package com.blinfosoft.feedback.service;
 
 import com.blinfosoft.feedback.entity.impl.App;
 import com.blinfosoft.feedback.exception.AccountNotFoundException;
+import com.blinfosoft.feedback.exception.AppAlreadyExistExceptions;
 import com.blinfosoft.feedback.exception.AppNotFoundException;
-import com.blinfosoft.feedback.exception.NoAppFound;
 import java.util.List;
 
 /**
@@ -21,12 +21,12 @@ public interface AppServiceImpl {
 
     List<App> getApps();
 
-    List<App> getAppsByAccount(long adminId) throws NoAppFound;
+    List<App> getAppsByAccount(String userAgent) throws AppNotFoundException;
 
     void deleteApp(long id) throws AppNotFoundException;
 
-    App createAppByAccount(App app, long userId) throws AccountNotFoundException;
+    App createAppByAccount(App app, String userAgent) throws AccountNotFoundException, AppAlreadyExistExceptions, AppNotFoundException;
 
     App updateApp(App app) throws AppNotFoundException;
-
+    boolean appAlreadyExist(String name) throws AppNotFoundException;
 }

@@ -10,6 +10,7 @@ import com.blinfosoft.feedback.exception.AccountNotFoundException;
 import java.util.List;
 import com.blinfosoft.feedback.dao.DaoFactory;
 import com.blinfosoft.feedback.entity.impl.Account;
+import com.blinfosoft.feedback.exception.EmailAlreadyExistException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +36,10 @@ public class AccountService implements AccountServiceImpl {
     }
 
     @Override
-    public Account createAccount(Account account) {
+    public Account createAccount(Account account) throws EmailAlreadyExistException{
+        if(checkEmailAlreadyExist(account.getEmail())){
+            throw new EmailAlreadyExistException(account.getEmail());
+        }
         try {
             getDaoFactory().getAccountDao().executeInTransaction((em) -> em.persist(account));
         } catch (Exception e) {
@@ -63,9 +67,9 @@ public class AccountService implements AccountServiceImpl {
     }
 
     @Override
-    public Account getAccount(long id) throws AccountNotFoundException {
-        return getDaoFactory().getAccountDao().findByPrimaryKey(id).orElseThrow(() -> {
-            return new AccountNotFoundException(id);
+    public Account getAccount(String license) throws AccountNotFoundException {
+        return getDaoFactory().getAccountDao().getAccountByLicense(license).orElseThrow(() -> {
+            return new AccountNotFoundException(license);
         });
     }
 
@@ -88,7 +92,12 @@ public class AccountService implements AccountServiceImpl {
 
     @Override
     public boolean verfyAccount(String license){       
-       return  getDaoFactory().getAccountDao().verifyAccount(license).isPresent();
+       return  getDaoFactory().getAccountDao().getAccountByLicense(license).isPresent();
+    }
+
+    @Override
+    public boolean checkEmailAlreadyExist(String email) {
+         return getDaoFactory().getAccountDao().isEmailExist(email).isPresent();
     }
 
 }

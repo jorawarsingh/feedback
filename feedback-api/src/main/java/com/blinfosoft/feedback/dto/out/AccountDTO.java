@@ -18,7 +18,6 @@ public class AccountDTO {
     private long id;
     private String name;
     private String email;
-    private String userName;
 
     public long getId() {
         return id;
@@ -32,10 +31,6 @@ public class AccountDTO {
         return email;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
     public void setId(long id) {
         this.id = id;
     }
@@ -46,9 +41,5 @@ public class AccountDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 }
