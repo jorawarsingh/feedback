@@ -31,9 +31,11 @@ public class RequestFilter implements ContainerRequestFilter {
         String path = uri.getPath();
         if (!allowRoot(path)) {
             if (!allowOptions(currentMethod)) {
-                if (!allowToCreateAccount(path, currentMethod)) {
-                    if (!accountService.verfyAccount(authCredentails)) {
-                        abortMission(requestContext);
+                if (!allowLogin(path)) {
+                    if (!allowToCreateAccount(path, currentMethod)) {
+                        if (!accountService.verfyAccount(authCredentails)) {
+                            abortMission(requestContext);
+                        }
                     }
                 }
             }
@@ -58,5 +60,9 @@ public class RequestFilter implements ContainerRequestFilter {
     private boolean allowOptions(String method) {
         System.out.println(method.equals("OPTIONS"));
         return method.equals("OPTIONS");
+    }
+
+    private boolean allowLogin(String path) {
+        return path.equals("login");
     }
 }

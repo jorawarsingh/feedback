@@ -11,6 +11,7 @@ import java.util.List;
 import com.blinfosoft.feedback.dao.DaoFactory;
 import com.blinfosoft.feedback.entity.impl.Account;
 import com.blinfosoft.feedback.exception.EmailAlreadyExistException;
+import com.blinfosoft.feedback.exception.InValidCredantialsExcetions;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -98,6 +99,19 @@ public class AccountService implements AccountServiceImpl {
     @Override
     public boolean checkEmailAlreadyExist(String email) {
          return getDaoFactory().getAccountDao().isEmailExist(email).isPresent();
+    }
+
+    @Override
+    public Account login(String email, String password) throws InValidCredantialsExcetions, AccountNotFoundException{
+        Account account = getDaoFactory().getAccountDao().findByEmail(email).orElseThrow(()->{
+            return new AccountNotFoundException(email);
+        });
+      if(password.equals(account.getPassword())){
+          return account;
+      } else{
+           throw new InValidCredantialsExcetions("Invalid password");
+      } 
+      
     }
 
 }

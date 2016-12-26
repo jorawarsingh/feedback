@@ -57,4 +57,13 @@ public class AccountDao extends GenericDao<Account, Long> {
             return account;
         });
     }
+
+    public Optional<Account> findByEmail(String email) {
+         final String queryStr = email != null ? email.trim() : null;
+        return execute((em) -> {
+            Query query = em.createNativeQuery("SELECT * FROM account WHERE email = \'" + queryStr + "\'", DefaultAccount.class);
+            DefaultAccount account = (DefaultAccount) query.getSingleResult();
+            return account;
+        });
+    }
 }

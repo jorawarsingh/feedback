@@ -14,7 +14,7 @@ public class CreateAccountDTO {
     private String name;
     private String email;
     private String password;
-    private String userSecretKey;
+    private String license;
 
     public String getName() {
         return name;
@@ -41,11 +41,11 @@ public class CreateAccountDTO {
     }
 
     public String getUserSecretKey() {
-        return userSecretKey;
+        return license;
     }
 
     public void setUserSecretKey(String userSecretKey) {
-        this.userSecretKey = userSecretKey;
+        this.license = userSecretKey;
     }
     
 }

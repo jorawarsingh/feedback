@@ -7,6 +7,9 @@ package com.blinfosoft.feedback.service;
 
 import com.blinfosoft.feedback.entity.DefaultIssue;
 import com.blinfosoft.feedback.entity.DefaultUser;
+import com.blinfosoft.feedback.entity.impl.Issue;
+import com.blinfosoft.feedback.exception.AppNotFoundException;
+import com.blinfosoft.feedback.exception.IssueNotFoundExceptions;
 import java.util.List;
 
 /**
@@ -15,17 +18,15 @@ import java.util.List;
  */
 public interface IssueServiceImpl {
 
-    List<DefaultIssue> getIssues();
+    Issue getIssue(long id) throws IssueNotFoundExceptions;
 
-    DefaultIssue getIssue(long id);
+    List<Issue> getIssueByAppId(long appId) throws AppNotFoundException;
 
-    List<DefaultIssue> getIssueByAppId(long appId);
+    //List<Issue> getIssueByUserId(long userId);
 
-    List<DefaultIssue> getIssueByUserId(long userId);
+    void deleteIssue(long id) throws IssueNotFoundExceptions;
 
-    void deleteIssue(long id);
+    Issue createIssue(Issue issue, long appId, long userId);
 
-    DefaultIssue createIssue(DefaultIssue issue, long appId, long userId);
-
-    DefaultIssue updateIssue(DefaultIssue issue);
+    Issue updateIssue(Issue issue);
 }

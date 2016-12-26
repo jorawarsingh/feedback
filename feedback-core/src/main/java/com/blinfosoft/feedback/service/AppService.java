@@ -7,17 +7,11 @@ package com.blinfosoft.feedback.service;
 
 import com.blinfosoft.feedback.dao.DaoFactory;
 import com.blinfosoft.feedback.entity.DefaultAccount;
-import com.blinfosoft.feedback.entity.DefaultApp;
-import com.blinfosoft.feedback.entity.impl.Account;
 import com.blinfosoft.feedback.entity.impl.App;
 import com.blinfosoft.feedback.exception.AccountNotFoundException;
 import com.blinfosoft.feedback.exception.AppAlreadyExistExceptions;
 import com.blinfosoft.feedback.exception.AppNotFoundException;
-import com.blinfosoft.feedback.exception.FeedbackException;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.TypedQuery;
 
 /**
  *

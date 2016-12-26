@@ -11,6 +11,7 @@ import com.blinfosoft.feedback.entity.DomainEntity;
 import com.blinfosoft.feedback.entity.impl.Account;
 import com.blinfosoft.feedback.exception.AccountNotFoundException;
 import com.blinfosoft.feedback.exception.EmailAlreadyExistException;
+import com.blinfosoft.feedback.exception.InValidCredantialsExcetions;
 import java.io.Serializable;
 import java.util.List;
 
@@ -37,4 +38,6 @@ public interface AccountServiceImpl extends DomainEntity<Long>, Serializable {
     boolean verfyAccount(String license);
 
     boolean checkEmailAlreadyExist(String email);
+    
+    Account login(String email, String password) throws InValidCredantialsExcetions, AccountNotFoundException;
 }

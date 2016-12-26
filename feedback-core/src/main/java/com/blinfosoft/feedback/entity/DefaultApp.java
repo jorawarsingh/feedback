@@ -7,7 +7,6 @@ package com.blinfosoft.feedback.entity;
 
 import com.blinfosoft.feedback.entity.impl.App;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -53,7 +52,7 @@ public class DefaultApp implements App {
 
     @Override
     public Collection<DefaultIssue> getIssue() {
-        return issue;
+        return  issue;
     }
 
     @Override

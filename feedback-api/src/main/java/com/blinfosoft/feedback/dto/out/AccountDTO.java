@@ -18,6 +18,15 @@ public class AccountDTO {
     private long id;
     private String name;
     private String email;
+    private String license;
+
+    public String getLicense() {
+        return license;
+    }
+
+    public void setLicense(String license) {
+        this.license = license;
+    }
 
     public long getId() {
         return id;

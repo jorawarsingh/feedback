@@ -5,10 +5,13 @@ com\blinfosoft\feedback\dto\out\AccountErrorDTO.class
 com\blinfosoft\feedback\dto\in\CreateAppDTO.class
 com\blinfosoft\feedback\filter\CrossOriginResourceSharingFilter.class
 com\blinfosoft\feedback\api\IssueResources.class
+com\blinfosoft\feedback\api\LoginResources.class
 com\blinfosoft\feedback\exception\mapper\AppNotFoundExceptionMapper.class
+com\blinfosoft\feedback\exception\mapper\InValidCredantialsExceptionsMapper.class
 com\blinfosoft\feedback\api\RootResources.class
 com\blinfosoft\feedback\exception\mapper\AppAlreadyExistExceptionMapper.class
 com\blinfosoft\feedback\api\AccountResources.class
+com\blinfosoft\feedback\exception\mapper\AccountNotFoundExceptionsMapper.class
 com\blinfosoft\feedback\exception\mapper\UserAlreadyExistExceptionMapper.class
 com\blinfosoft\feedback\dto\in\CreateAccountDTO.class
 com\blinfosoft\feedback\dto\out\IssueDTO.class

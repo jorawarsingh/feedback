@@ -5,6 +5,10 @@
  */
 package com.blinfosoft.feedback.dto.out;
 
+import com.blinfosoft.feedback.entity.impl.Issue;
+import java.util.Collection;
+import java.util.List;
+
 /**
  *
  * @author js
@@ -12,6 +16,15 @@ package com.blinfosoft.feedback.dto.out;
 class AppDTO {
     private long id;
     private String name;
+    private List<IssueDTO> issueList;
+
+    public List<IssueDTO> getIssueList() {
+        return issueList;
+    }
+
+    public void setIssueList(List<IssueDTO> issueList) {
+        this.issueList = issueList;
+    }
 
     public long getId() {
         return id;
